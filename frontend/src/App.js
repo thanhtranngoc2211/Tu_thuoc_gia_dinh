@@ -1,6 +1,48 @@
 import React, { useEffect, useState } from 'react'
 import './App.css';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
+import styled from 'styled-components';
+import mainLogo from './2.png';
+import { FiSettings } from 'react-icons/fi';
+
+const Page = styled.div`
+  display: flex;
+  background-color: #EBE645;
+  background-size: cover;
+`
+
+const ItemInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
+
+const Welcome = styled.div`
+  display: flex;
+  margin-left: 35vw;
+`
+
+const UserToggle = styled.div`
+  background-color: #577BC1;
+  height: 100vh;
+  width: 20vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
+
+const MainInfo = styled.div`
+  margin-top: 20vh;
+  background-color: #577BC1;
+  opacity: 80%;
+  border-radius: 3%;
+`
+
+const Toggle = styled(Link)`
+  color: black;
+  margin-bottom: 3vh;
+  margin-top: 2vw;
+`
 
 function App() {
   var { id } = useParams();
@@ -48,21 +90,32 @@ function App() {
     console.log(id);
   }
   return (
-    <div>
-      <div className="Navbar">
-        <h1>TỦ THUỐC GIA ĐÌNH {id}</h1>
-        <h3>Xin chào {userName} </h3>
-      </div>
-      <div className="itemsContainer">
-        <table className="items">
-          <tr>
-            <th>Danh sách thuốc</th>
-            <th>Số lượng còn lại</th>
-          </tr>
-          {resp.items.map((i) => (<tr><th>{i.tenTB}</th><th>{i.soLuong}</th><th><button onClick={() => handleAdd(i.masoTB)}>+</button></th><th><button onClick={() => handleRemove(i.masoTB)}>-</button></th></tr>))}
-        </table>
-      </div>
-    </div>
+    <Page style={{ backgroundImage: `url(${mainLogo})` }}>
+      <UserToggle>
+        <FiSettings size={30} style={{marginTop:"2vh"}}/>
+        <Toggle to='/'>Thông tin người dùng</Toggle>
+        <Toggle to='/'>Nhập thông tin thiết bị</Toggle>
+        <Toggle to='/'>Nhập thuốc</Toggle>
+        <Toggle to='/'>Xuất thuốc</Toggle>
+        <Toggle to='/'>Nhập đơn thuốc</Toggle>
+        <Toggle to='/'>Thông báo</Toggle>
+      </UserToggle>
+      <ItemInfo>
+        <Welcome>
+          <h1>Tủ thuốc</h1>
+          <h5 style={{marginLeft:"15vw"}}>Xin chào {userName} </h5>
+        </Welcome>
+        <MainInfo>
+          <table style={{width: '50vw', opacity: "100%"}}>
+            <tr>
+              <th>Danh sách thuốc</th>
+              <th>Số lượng còn lại</th>
+            </tr>
+            {resp.items.map((i) => (<tr><th>{i.tenTB}</th><th>{i.soLuong}</th><th><button onClick={() => handleAdd(i.masoTB)}>+</button></th><th><button onClick={() => handleRemove(i.masoTB)}>-</button></th></tr>))}
+          </table>
+        </MainInfo>
+      </ItemInfo>
+    </Page>
   );
 }
 

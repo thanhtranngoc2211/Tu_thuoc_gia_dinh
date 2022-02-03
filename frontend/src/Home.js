@@ -1,52 +1,74 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import { GrNext } from 'react-icons/gr'
+import mainLogo from './1.png'
+import { Button, DropdownButton } from 'react-bootstrap'
+import DropdownItem from 'react-bootstrap/esm/DropdownItem'
 
 const Login = styled.h1`
-    margin-top: 20vh;
-    margin-bottom: 30vh;
-`
-
-const Submit = styled.button`
-    background-color: cyan;
-    height: 5vh;
-    width: 6vw;
-    border-radius: 8%;
-    margin-top: 10vh;
+    margin-bottom: 20vh;
 `
 
 const HomePage = styled.div`
+    padding-top: 10vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    height: 100vh;
+    background-color: #EBE645;
+    background-size: cover;
+    background-attachment: fixed; 
+    font-family: 'Arial', sans-serif;
+    font-size: 22px;
+    font-weight: lighter;
+    color: #577BC1;
+`
+
+const User = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 `
 
 const SelectUser = styled.select`
-    width: 60vw;
-    margin-bottom: 5vh;
-    height: 5vh;
+    width: 30vw;
+    height: 6vh;
 `
 
 const LinkSubmit = styled(Link)`
     text-decoration: none;
 `
 
+const SubmitForm = styled.div`
+    margin-top: 5vh;
+    display: flex;
+
+`
+
+
 export default function Home() {
     const [userId, setUserId] = useState(1);
     const handleChange =(event) => {
-        setUserId(event.target.value)
+        setUserId(event)
     }
     return (
-        <HomePage>
-            <Login>Login</Login>
-            <SelectUser onChange={handleChange} value={userId}>
-                <option value="1">User_1</option>
-                <option value="2">User_2</option>
-            </SelectUser>
-            <Submit>
-                <LinkSubmit to={`${userId}`}>Login</LinkSubmit>
-            </Submit>
+        <HomePage style={{ backgroundImage: `url(${mainLogo})`}}>
+            <Login>TỦ THUỐC GIA ĐÌNH</Login>
+            <User>
+                <h2>Tên đăng nhập:</h2>
+                <SubmitForm>
+                    <DropdownButton title="Chọn người sử dụng" style={{marginLeft:"80px"}}>
+                        <DropdownItem onClick={() => handleChange(1)}>Trần Ngọc Thành</DropdownItem>
+                        <DropdownItem onClick={() => handleChange(2)}>Trần Mai Linh</DropdownItem>
+                    </DropdownButton>
+                    <LinkSubmit to={`${userId}`}>
+                        <Button variant="primary" style={{width:"5vw", height:"5.6vh", marginLeft:"30px"}}>
+                            <GrNext color="white" />
+                        </Button>
+                    </LinkSubmit>
+                </SubmitForm>
+            </User>
         </HomePage>
     )
 }
