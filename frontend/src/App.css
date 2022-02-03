@@ -1,0 +1,21 @@
+.Navbar {
+  display: flex;
+  justify-content: space-around;
+}
+
+.itemsContainer {
+  width: 100vw;
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+}
+
+.items {
+  background-color: cyan;
+  width: 80%;
+  height: 100%; 
+}
+
+.itemsInformation {
+  width: 100%;
+}
