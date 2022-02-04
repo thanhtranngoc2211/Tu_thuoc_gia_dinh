@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Form } from 'react-bootstrap';
+import { Form, Button } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
- 
+import { Link }  from 'react-router-dom'
+
 const Page = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+`
+
+const Head = styled.div`
+    display: flex;
 `
 
 export default function UserInfo() {
@@ -18,6 +23,7 @@ export default function UserInfo() {
         const users = await (await fetch("http://127.0.0.1:8000/users")).json()
         setUser(users)
     }
+
     useEffect(() => {
         fetchUser();
     }, [])
@@ -26,8 +32,6 @@ export default function UserInfo() {
     var dob = '2000-11-22'
     var pathology = 'NaN'
 
-    console.log(user[1])
-
     for (var i = 0 ; i < user.length; i++) {
         if (user[i].masoTV === id) {
           userName = user[i].hoTen
@@ -35,27 +39,31 @@ export default function UserInfo() {
           pathology = user[i].tienSuBL
         }
     }
-    
-    const handleChange = () => {
-
-    }
 
     return (
         <Page>
-            <h1>Thông tin người dùng</h1>
-            <Form>
+            <Head>
+                <Link to={`/${id}`} style={{position:'absolute',left:'0'}}>
+                    <Button>Back</Button>
+                </Link>
+                <h1>Thông tin người dùng</h1>
+            </Head>
+            <Form style={{display: 'flex', flexDirection: 'column'}}>
                 <Form.Group controlId="formUsername">
                     <Form.Label>Tên đăng nhập</Form.Label>
-                    <Form.Control type="text" value={userName} onChange={handleChange}/>
+                    <Form.Control type="text" value={userName} readOnly/>
                 </Form.Group>
                 <Form.Group controlId="formDOB">
                     <Form.Label>Năm sinh</Form.Label>
-                    <Form.Control type="date" value={dob} />
+                    <Form.Control type="date" value={dob} readOnly/>
                 </Form.Group>
                 <Form.Group controlId="formPathology">
                     <Form.Label>Bệnh lý</Form.Label>
-                    <Form.Control type="text" value={pathology} />
+                    <Form.Control type="text" value={pathology} readOnly/>
                 </Form.Group>
+                <Link to={`/user_info/update/${id}`}>
+                    <Button variant="outline-primary" style={{marginTop:'30px', width: '100%'}}>Chỉnh sửa</Button>
+                </Link>
             </Form>
         </Page>
     );

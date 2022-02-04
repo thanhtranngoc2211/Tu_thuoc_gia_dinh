@@ -14,6 +14,16 @@ def get_users(db: Session):
 
     return db.query(models.User).all()
 
+def update_user(db: Session, user: schemas.User):
+
+    db_post = db.query(models.User).filter(models.User.masoTV == user.masoTV).first()
+    db_post.hoTen = user.hoTen
+    db_post.namSinh = user.namSinh
+    db_post.tienSuBL = user.tienSuBL
+    db.commit()
+    db.refresh(db_post)
+    return db_post
+
 def get_imports (db: Session):
     return db.query(models.Import).all()
 

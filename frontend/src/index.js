@@ -7,6 +7,7 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import UserInfo from '../src/components/UserInfo';
+import UserInfoChange from './components/UserInfoChange';
 import Pills from '../src/components/Pills';
 import Import from '../src/components/Import';
 import Export from '../src/components/Export';
@@ -19,6 +20,7 @@ ReactDOM.render(
       <Route path="/" element={<Home />} />
       <Route path="/:id" element={<App />} />
       <Route path="/user_info/:id" element={<UserInfo />} />
+      <Route path="/user_info/update/:id" element={<UserInfoChange />} />
       <Route path="/pills_info/:id" element={<Pills />} />
       <Route path="/import/:id" element={<Import />} />
       <Route path="/export/:id" element={<Export />} />

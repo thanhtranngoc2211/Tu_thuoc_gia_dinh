@@ -4,6 +4,7 @@ import { useParams, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import mainLogo from './2.png';
 import { FiSettings } from 'react-icons/fi';
+import { Button } from 'react-bootstrap'
 
 const Page = styled.div`
   display: flex;
@@ -84,8 +85,8 @@ function App() {
       },  
       body: JSON.stringify(newImport)
     })
-    console.log(id);
   }
+  
   const handleRemove = (id) => {
     console.log(id);
   }
@@ -99,6 +100,7 @@ function App() {
         <Toggle to={`/export/${id}`}>Xuất thuốc</Toggle>
         <Toggle to={`/order/${id}`}>Nhập đơn thuốc</Toggle>
         <Toggle to={`/message/${id}`}>Thông báo</Toggle>
+        <Toggle to={'/'}>Đổi người dùng</Toggle>
       </UserToggle>
       <ItemInfo>
         <Welcome>
@@ -111,7 +113,7 @@ function App() {
               <th>Danh sách thuốc</th>
               <th>Số lượng còn lại</th>
             </tr>
-            {resp.items.map((i) => (<tr><th>{i.tenTB}</th><th>{i.soLuong}</th><th><button onClick={() => handleAdd(i.masoTB)}>+</button></th><th><button onClick={() => handleRemove(i.masoTB)}>-</button></th></tr>))}
+            {resp.items.map((i) => (<tr><th>{i.tenTB}</th><th>{i.soLuong}</th><th><Button style={{width:"30px"}} size="sm" onClick={() => handleAdd(i.masoTB)}>+</Button></th><th><Button style={{width:"30px"}} size="sm" onClick={() => handleRemove(i.masoTB)}>-</Button></th></tr>))}
           </table>
         </MainInfo>
       </ItemInfo>

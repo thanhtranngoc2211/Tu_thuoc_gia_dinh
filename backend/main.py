@@ -46,6 +46,11 @@ def read_users(db: Session = Depends(get_db)):
     users = crud.get_users(db)
     return users
 
+@app.post("/users/update/", response_model=schemas.User)
+def update_user(user: schemas.User, db: Session = Depends(get_db)) :
+    user = crud.update_user(db, user=user)
+    return user
+
 #@app.get("/users/{user_id}", response_model=schemas.User)
 #def read_user(user_id: int, db: Session = Depends(get_db)):
 #    db_user = crud.get_user(db, user_id=user_id)
@@ -58,7 +63,6 @@ def create_item_for_user(
     item: schemas.ItemCreate, db: Session = Depends(get_db)
 ):
     return crud.create_user_item(db=db, item=item)
-
 
 @app.get("/items/", response_model=List[schemas.ItemBase])
 def read_items(db: Session = Depends(get_db)):
