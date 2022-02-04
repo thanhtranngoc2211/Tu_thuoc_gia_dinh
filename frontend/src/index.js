@@ -6,12 +6,24 @@ import Home from './Home';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import UserInfo from '../src/components/UserInfo';
+import Pills from '../src/components/Pills';
+import Import from '../src/components/Import';
+import Export from '../src/components/Export';
+import Order from '../src/components/Order';
+import Message from '../src/components/Message';
 
 ReactDOM.render(
   <Router>
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/:id" element={<App />} />
+      <Route path="/user_info/:id" element={<UserInfo />} />
+      <Route path="/pills_info/:id" element={<Pills />} />
+      <Route path="/import/:id" element={<Import />} />
+      <Route path="/export/:id" element={<Export />} />
+      <Route path="/order/:id" element={<Order />} />
+      <Route path="/message/:id" element={<Message />} />
     </Routes>
   </Router>,
   document.getElementById('root')

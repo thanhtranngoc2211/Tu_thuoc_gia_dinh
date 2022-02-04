@@ -93,12 +93,12 @@ function App() {
     <Page style={{ backgroundImage: `url(${mainLogo})` }}>
       <UserToggle>
         <FiSettings size={30} style={{marginTop:"2vh"}}/>
-        <Toggle to='/'>Thông tin người dùng</Toggle>
-        <Toggle to='/'>Nhập thông tin thiết bị</Toggle>
-        <Toggle to='/'>Nhập thuốc</Toggle>
-        <Toggle to='/'>Xuất thuốc</Toggle>
-        <Toggle to='/'>Nhập đơn thuốc</Toggle>
-        <Toggle to='/'>Thông báo</Toggle>
+        <Toggle to={`/user_info/${id}`}>Thông tin người dùng</Toggle>
+        <Toggle to={`/pills_info/${id}`}>Nhập thông tin thiết bị</Toggle>
+        <Toggle to={`/import/${id}`}>Nhập thuốc</Toggle>
+        <Toggle to={`/export/${id}`}>Xuất thuốc</Toggle>
+        <Toggle to={`/order/${id}`}>Nhập đơn thuốc</Toggle>
+        <Toggle to={`/message/${id}`}>Thông báo</Toggle>
       </UserToggle>
       <ItemInfo>
         <Welcome>

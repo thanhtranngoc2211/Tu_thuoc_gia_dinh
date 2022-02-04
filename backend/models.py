@@ -3,9 +3,8 @@ from code import interact
 from enum import unique
 from inspect import CO_ASYNC_GENERATOR
 from operator import index
-import re
 from turtle import back, circle
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Date, DateTime
 from sqlalchemy.orm import relationship
 
 from database import Base
@@ -16,8 +15,8 @@ class User(Base):
 
     masoTV = Column(Integer, primary_key=True, index=True, unique=True)
     hoTen = Column(String)
-    namSinh = Column(String)
-    tienSuBL = Column(DateTime)
+    namSinh = Column(Date)
+    tienSuBL = Column(String)
 
     phieuXuat = relationship("Export", back_populates="owner")
     donThuoc = relationship("donThuoc", back_populates="owner")

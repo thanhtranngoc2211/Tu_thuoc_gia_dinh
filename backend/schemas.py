@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date, datetime
 from typing import List, Optional
 from pydantic import BaseModel
 
@@ -41,7 +41,7 @@ class UserBase(BaseModel):
     hoTen: str
 
 class User(UserBase):
-    namSinh: datetime
+    namSinh: date
     tienSuBL: Optional[str] = None
 
     class Config:
