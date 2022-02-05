@@ -13,6 +13,7 @@ import Import from '../src/components/Import';
 import Export from '../src/components/Export';
 import Order from '../src/components/Order';
 import Message from '../src/components/Message';
+import OrderSpec from './components/OrderSpec';
 
 ReactDOM.render(
   <Router>
@@ -26,6 +27,7 @@ ReactDOM.render(
       <Route path="/export/:id" element={<Export />} />
       <Route path="/order/:id" element={<Order />} />
       <Route path="/message/:id" element={<Message />} />
+      <Route path="/order/spec/:id" element={<OrderSpec />} />
     </Routes>
   </Router>,
   document.getElementById('root')

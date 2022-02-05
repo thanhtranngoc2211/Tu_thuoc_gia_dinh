@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Modal } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
  
@@ -8,6 +8,8 @@ const Page = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: #EBE645;
+    height: 100vh;
 `
 
 const Head = styled.div`
@@ -22,6 +24,7 @@ export default function UserInfoChange() {
     const [userName, setUserName] = useState('')
     const [dob, setDob] = useState('')
     const [pathology, setPathology] = useState('')
+    const [show, setShow] = useState(false);
     
     const handleChangeUserName = (event) => {
         setUserName(event.target.value)
@@ -51,8 +54,10 @@ export default function UserInfoChange() {
             },  
             body: JSON.stringify(userUpdate)
         })
-        console.log("Ok")
+        setShow(true);
     }
+
+    const handleClose = () => setShow(false);
 
     return (
         <Page>
@@ -76,6 +81,17 @@ export default function UserInfoChange() {
                     <Form.Control type="text" value={pathology} onChange={handleChangePathology}/>
                 </Form.Group>
                 <Button variant="outline-primary" style={{marginTop:'30px'}} onClick={handleClick}>Chỉnh sửa</Button>
+                <Modal show={show} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                      <Modal.Title>Message</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>Đã thêm thành công!</Modal.Body>
+                    <Modal.Footer>
+                      <Button variant="secondary" onClick={handleClose}>
+                        Close
+                      </Button>
+                    </Modal.Footer>
+                </Modal>
             </Form>
         </Page>
     );

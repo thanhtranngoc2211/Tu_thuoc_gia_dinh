@@ -50,10 +50,14 @@ function App() {
   id = Number(id);
   const [resp, setResp] = useState({items: [], imports: [], users: []});
   const fetchItems = async() => {
-    const items = await (await fetch("http://127.0.0.1:8000/items")).json()
-    const imports = await (await fetch("http://127.0.0.1:8000/imports")).json()
-    const users = await (await fetch("http://127.0.0.1:8000/users")).json()
-    setResp({items: items, imports: imports, users: users})
+    try {
+      const items = await (await fetch("http://127.0.0.1:8000/items")).json()
+      const imports = await (await fetch("http://127.0.0.1:8000/imports")).json()
+      const users = await (await fetch("http://127.0.0.1:8000/users")).json()
+      setResp({items: items, imports: imports, users: users})
+    } catch (error) {
+      console.log(error)
+    }
   }
   useEffect(() => {
     fetchItems(); 

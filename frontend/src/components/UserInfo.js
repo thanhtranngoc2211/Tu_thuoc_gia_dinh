@@ -8,6 +8,8 @@ const Page = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: #EBE645;
+    height: 100vh;
 `
 
 const Head = styled.div`
@@ -46,9 +48,9 @@ export default function UserInfo() {
                 <Link to={`/${id}`} style={{position:'absolute',left:'0'}}>
                     <Button>Back</Button>
                 </Link>
-                <h1>Thông tin người dùng</h1>
+                <h1 style={{marginTop:'40px'}}>Thông tin người dùng</h1>
             </Head>
-            <Form style={{display: 'flex', flexDirection: 'column'}}>
+            <Form style={{display: 'flex', flexDirection: 'column', marginTop:'70px'}}>
                 <Form.Group controlId="formUsername">
                     <Form.Label>Tên đăng nhập</Form.Label>
                     <Form.Control type="text" value={userName} readOnly/>
