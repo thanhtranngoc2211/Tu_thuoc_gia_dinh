@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link, useParams } from 'react-router-dom';
-import { Button, Form, Modal } from 'react-bootstrap'
+import { Button, Form, Modal, DropdownButton } from 'react-bootstrap';
+import DropdownItem from 'react-bootstrap/esm/DropdownItem';
 
 const Page = styled.div`
     display: flex;
@@ -23,9 +24,6 @@ export default function Import() {
     const [pill, setPill] = useState({name: '', quantity: 0, expiryDate: '', importDate: ''})
     const [show, setShow] = useState(false);
 
-    const handleChangeName = (event) => {
-        setPill({name: event.target.value, quantity: pill.quantity, expiryDate: pill.expiryDate, importDate: pill.importDate})
-    }
     const handleChangeQuantity = (event) => {
         setPill({name: pill.name, quantity: event.target.value, expiryDate: pill.expiryDate, importDate: pill.importDate})
     }
@@ -43,6 +41,10 @@ export default function Import() {
 
     const handleClose = () => setShow(false);
 
+    const handleChangePill = () => {
+
+    }
+
     return (
         <Page>
             <Head>
@@ -52,10 +54,9 @@ export default function Import() {
                 <h1 style={{marginTop:'40px'}}>Nhập thuốc</h1>
             </Head>
             <Form style={{display: 'flex', flexDirection: 'column', marginTop:'70px'}}>
-                <Form.Group controlId="formName">
-                    <Form.Label>Tên thiết bị</Form.Label>
-                    <Form.Control type="text" value={pill.name} onChange={handleChangeName} />
-                </Form.Group>
+                <DropdownButton title="Tên thiết bị">
+                    <DropdownItem onClick={() => handleChangePill}>Panadol</DropdownItem>
+                </DropdownButton>
                 <Form.Group controlId="formQuantity">
                     <Form.Label>Số lượng</Form.Label>
                     <Form.Control type="text" value={pill.quantity} onChange={handleChangeQuantity} />

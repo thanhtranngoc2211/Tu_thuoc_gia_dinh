@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Button, Form, Modal } from 'react-bootstrap';
+import { Button, Form, Modal, DropdownButton } from 'react-bootstrap';
 import { Link, useParams } from 'react-router-dom';
+import DropdownItem from 'react-bootstrap/esm/DropdownItem'
  
 const Page = styled.div`
     display: flex;
@@ -40,6 +41,10 @@ export default function Export() {
 
     const handleClose = () => setShow(false);
 
+    const handleChangePill = () => {
+        
+    }
+
     return (
         <Page>
             <Head>
@@ -49,17 +54,12 @@ export default function Export() {
                 <h1 style={{marginTop:'40px'}}>Nhập thuốc</h1>
             </Head>
             <Form style={{display: 'flex', flexDirection: 'column', marginTop:'70px'}}>
-                <Form.Group controlId="formName">
-                    <Form.Label>Tên thiết bị</Form.Label>
-                    <Form.Control type="text" value={pill.name} onChange={handleChangeName} />
-                </Form.Group>
+                <DropdownButton title="Tên thiết bị">
+                    <DropdownItem onClick={() => handleChangePill}>Panadol</DropdownItem>
+                </DropdownButton>
                 <Form.Group controlId="formQuantity">
                     <Form.Label>Số lượng</Form.Label>
                     <Form.Control type="text" value={pill.quantity} onChange={handleChangeQuantity} />
-                </Form.Group>
-                <Form.Group controlId="formExp">
-                    <Form.Label>Hạn sử dụng</Form.Label>
-                    <Form.Control type="date" value={pill.expiryDate}  onChange={handleChangeExport}/>
                 </Form.Group>
                 <Button onClick={handleClick} variant="outline-primary" style={{marginTop:'30px', width: '100%'}}>Chỉnh sửa</Button>
                 <Modal show={show} onHide={handleClose}>

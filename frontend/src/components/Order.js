@@ -52,6 +52,11 @@ export default function Order() {
     const handleBack = () => {
         setAdd(true);
     }
+
+    const handleChangeOrder = () => {
+
+    }
+
     return (
         <Page>
             <Head>
@@ -75,12 +80,16 @@ export default function Order() {
             }
             {!add 
                 ? <Form style={{display: 'flex', flexDirection: 'column', marginTop:'70px'}}>
+                    <select title="Mã đơn thuốc">
+                        <option value="1" selected="selected">Đơn mới</option>
+                        <option value="1">Đơn thuốc 1</option>                       
+                    </select> 
                     <Form.Group controlId="formName">
-                        <Form.Label>Đơn thuốc</Form.Label>
+                    <Form.Label>Tên thiết bị</Form.Label>
                         <Form.Control type="text" value={pill.name} onChange={handleChangeName} />
-                    </Form.Group>
+                    </Form.Group>                    
                     <Form.Group controlId="formQuantity">
-                        <Form.Label>Số lượng</Form.Label>
+                        <Form.Label>Liều lượng</Form.Label>
                         <Form.Control type="text" value={pill.quantity} onChange={handleChangeQuantity} />
                     </Form.Group>
                     <Form.Group controlId="formExp">

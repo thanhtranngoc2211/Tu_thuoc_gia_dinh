@@ -33,7 +33,7 @@ const UserToggle = styled.div`
 `
 
 const MainInfo = styled.div`
-  margin-top: 20vh;
+  margin-top: 8vh;
   background-color: #577BC1;
   opacity: 80%;
   border-radius: 3%;
@@ -112,13 +112,15 @@ function App() {
           <h5 style={{marginLeft:"15vw"}}>Xin chào {userName} </h5>
         </Welcome>
         <MainInfo>
-          <table style={{width: '50vw', opacity: "100%"}}>
-            <tr>
-              <th>Danh sách thuốc</th>
-              <th>Số lượng còn lại</th>
-            </tr>
-            {resp.items.map((i) => (<tr><th>{i.tenTB}</th><th>{i.soLuong}</th><th><Button style={{width:"30px"}} size="sm" onClick={() => handleAdd(i.masoTB)}>+</Button></th><th><Button style={{width:"30px"}} size="sm" onClick={() => handleRemove(i.masoTB)}>-</Button></th></tr>))}
-          </table>
+          <div class="table-wrapper-scroll-y my-custom-scrollbar">
+            <table style={{width: '50vw', opacity: "100%"}} className="table table-bordered table-striped mb-0">
+              <tr>
+                <th>Danh sách thuốc</th>
+                <th>Số lượng còn lại</th>
+              </tr>
+              {resp.items.map((i) => (<tr><th>{i.tenTB}</th><th>{i.soLuong} {i.donViTinh}</th><th><Button style={{width:"30px"}} size="sm" onClick={() => handleAdd(i.masoTB)}>+</Button></th><th><Button style={{width:"30px"}} size="sm" onClick={() => handleRemove(i.masoTB)}>-</Button></th></tr>))}
+            </table>
+          </div>
         </MainInfo>
       </ItemInfo>
     </Page>
