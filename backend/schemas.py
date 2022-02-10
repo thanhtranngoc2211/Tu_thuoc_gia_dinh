@@ -7,6 +7,7 @@ class ItemBase(BaseModel):
     masoTB: int
     loaiTB: str
     tenTB: str
+    hanSD: Optional[date]
     donViTinh: str
     ghiChu: Optional[str] = None
     soLuong: int
@@ -38,9 +39,9 @@ class OrderCreate(BaseModel):
 
 class UserBase(BaseModel):
     masoTV: int
-    hoTen: str
 
 class User(UserBase):
+    hoTen: str
     namSinh: date
     tienSuBL: Optional[str] = None
 
@@ -51,7 +52,7 @@ class Import(BaseModel):
     maPhieuNhap: int
     masoTB: int
     soluongNhap: int
-    hanSD: datetime
+    hanSD: date
     ghiChu: Optional[str] = None
     ngayNhap: datetime
 

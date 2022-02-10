@@ -54,46 +54,65 @@ function App() {
       const items = await (await fetch("http://127.0.0.1:8000/items")).json()
       const imports = await (await fetch("http://127.0.0.1:8000/imports")).json()
       const users = await (await fetch("http://127.0.0.1:8000/users")).json()
-      setResp({items: items, imports: imports, users: users})
+      const exports = await (await fetch("http://127.0.0.1:8000/exports")).json()
+      setResp({items: items, imports: imports, users: users, exports: exports})
     } catch (error) {
       console.log(error)
     }
   }
   useEffect(() => {
-    fetchItems(); 
+    fetchItems();
   });
   
   var userName = "Thanh";
+  var user_id = 0;
 
   for (var i = 0 ; i < resp.users.length; i++) {
     if (resp.users[i].masoTV === id) {
-      userName = resp.users[i].hoTen
+      userName = resp.users[i].hoTen;
+      user_id = i;
     }
   }
 
-  const handleAdd = async(id) => {
-    const newImport = {
-      "maPhieuNhap": resp.imports.length,
+  //Define expiry date for pills
+  const dates = new Array(resp.items.length);
+  const expireD = [];
+  for (var j = 0; j < dates.length; j++) {
+    dates[j] = new Array(1);
+  }
+  for (var ite = 0; ite < resp.imports.length; ite++) {
+    dates[resp.imports[ite].masoTB].push(resp.imports[ite].hanSD)
+  }
+  for (var iter = 0; iter < resp.items.length; iter++) {
+    for (var itera = 0; itera < dates[iter]; itera++) {
+      var minTemp = new Date(dates[iter][0]);
+      if (minTemp > dates[iter][itera]) {
+        minTemp = dates[iter][itera]
+      }
+      minTemp = expireD[iter];
+    }
+  }
+
+  const handleRemove = async(id) => {
+    console.log(resp.users[user_id].masoTV)
+    const export_req = {
+      "maPhieuXuat": resp.exports.length,
+      "masoTV": resp.users[user_id].masoTV,
       "masoTB": id,
-      "soluongNhap": 1,
-      "hanSD": "2022-01-30T09:54:52.464Z",
-      "ghiChu": null,
-      "ngayNhap": "2022-01-30T09:54:52.464Z"
+      "soluongXuat": 1,
+      "ngayXuat": "2022-01-30T09:54:52.464Z"
     }
 
-    fetch("http://127.0.0.1:8000/create_import", {
+    await fetch("http://127.0.0.1:8000/create_export", {
       method: "POST",
-      headers: { 
-        "Content-Type": "application/json",
-        "Origin": "http://localhost:3000"
-      },  
-      body: JSON.stringify(newImport)
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(export_req)
     })
+
   }
-  
-  const handleRemove = (id) => {
-    console.log(id);
-  }
+
   return (
     <Page style={{ backgroundImage: `url(${mainLogo})` }}>
       <UserToggle>
@@ -113,12 +132,14 @@ function App() {
         </Welcome>
         <MainInfo>
           <div class="table-wrapper-scroll-y my-custom-scrollbar">
-            <table style={{width: '50vw', opacity: "100%"}} className="table table-bordered table-striped mb-0">
+            <table style={{width: '50vw', opacity: "100%"}} className="table-bordered mb-0">
               <tr>
                 <th>Danh sách thuốc</th>
                 <th>Số lượng còn lại</th>
+                <th>Hạn sử dụng</th>
+                <th>Ghi chú</th>  
               </tr>
-              {resp.items.map((i) => (<tr><th>{i.tenTB}</th><th>{i.soLuong} {i.donViTinh}</th><th><Button style={{width:"30px"}} size="sm" onClick={() => handleAdd(i.masoTB)}>+</Button></th><th><Button style={{width:"30px"}} size="sm" onClick={() => handleRemove(i.masoTB)}>-</Button></th></tr>))}
+              {resp.items.map((i) => (<tr><th>{i.tenTB}</th><th>{i.soLuong} {i.donViTinh}</th><th>{i.hanSD}</th><th>{i.ghiChu}</th><th></th><th><Button style={{width:"30px"}} size="sm" onClick={() => handleRemove(i.masoTB)}>-</Button></th></tr>))}
             </table>
           </div>
         </MainInfo>

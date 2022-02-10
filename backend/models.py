@@ -28,6 +28,7 @@ class Item(Base):
     masoTB = Column(Integer, primary_key=True, index=True, unique=True)
     loaiTB = Column(String)
     tenTB = Column(String)
+    hanSD = Column(Date)
     donViTinh = Column(String)
     ghiChu = Column(String)
     soLuong = Column(Integer)
@@ -43,7 +44,7 @@ class Import(Base):
     maPhieuNhap = Column(Integer, primary_key=True, index=True, unique=True)
     masoTB = Column(Integer, ForeignKey("thuocvaTBYT.masoTB"))
     soluongNhap = Column(Integer)
-    hanSD = Column(DateTime)
+    hanSD = Column(Date)
     ghiChu = Column(String)
     ngayNhap = Column(DateTime)
 

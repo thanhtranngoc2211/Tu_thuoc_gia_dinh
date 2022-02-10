@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components'
 import { Form, Button, Modal } from 'react-bootstrap'
 import { Link, useParams } from 'react-router-dom'
@@ -21,8 +21,20 @@ export default function Pills() {
     id = Number(id);
 
     const [pill, setPill] = useState({type: '', name: '', unit: '', note: null});
-
+    const [pillsLength, setPillsLength] = useState(0);
     const [show, setShow] = useState(false);
+
+    const fetchPills = async() => {
+        try {
+          const items = await (await fetch("http://127.0.0.1:8000/items")).json()
+          setPillsLength(items.length)
+        } catch (error) {
+          console.log(error)
+        }
+      }
+      useEffect(() => {
+        fetchPills();
+      });
 
     const handleChangeType = (event) => {
         setPill({type: event.target.value, name: pill.name, unit: pill.unit, note: pill.note})
@@ -41,8 +53,24 @@ export default function Pills() {
     }
 
     const handleClick = () => {
-        console.log(pill)
-        setShow(true)
+        const pillCreate = {
+            "masoTB": pillsLength,
+            "loaiTB": pill.type,
+            "tenTB": pill.name,
+            "soLuong": 0,
+            "donViTinh": pill.unit,
+            "ghiChu": pill.note,
+        }
+
+        fetch("http://127.0.0.1:8000/create_items/", {
+            method: "POST",
+            headers: { 
+              "Content-Type": "application/json",
+              "Origin": "http://localhost:3000"
+            },  
+            body: JSON.stringify(pillCreate)
+        })
+        setShow(true);
     }
 
     const handleClose = () => setShow(false);

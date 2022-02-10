@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Form, Button, Modal } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
  
 const Page = styled.div`
@@ -20,6 +20,7 @@ export default function UserInfoChange() {
 
     var { id } = useParams();
     id = Number(id);
+    let navigate = useNavigate();
 
     const [userName, setUserName] = useState('')
     const [dob, setDob] = useState('')
@@ -57,7 +58,28 @@ export default function UserInfoChange() {
         setShow(true);
     }
 
-    const handleClose = () => setShow(false);
+    const handleDelete = async() => {
+        const userId = {
+            "masoTV": id,
+        }
+        
+        await fetch("http://127.0.0.1:8000/users/delete/", {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(userId)
+        })
+        setShow(true);
+        setTimeout(() => {
+            navigate("/")
+        }, 2000)
+    }
+
+    const handleClose = () => {
+        setShow(false);
+        navigate("/")
+    }
 
     return (
         <Page>
@@ -81,15 +103,16 @@ export default function UserInfoChange() {
                     <Form.Control type="text" value={pathology} onChange={handleChangePathology}/>
                 </Form.Group>
                 <Button variant="outline-primary" style={{marginTop:'30px'}} onClick={handleClick}>Chỉnh sửa</Button>
+                <Button variant="danger" style={{marginTop:'20px'}} onClick={handleDelete}>Xóa thành viên</Button>
                 <Modal show={show} onHide={handleClose}>
                     <Modal.Header closeButton>
                       <Modal.Title>Message</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>Đã thêm thành công!</Modal.Body>
+                    <Modal.Body>Đã xử lý thành công!</Modal.Body>
                     <Modal.Footer>
-                      <Button variant="secondary" onClick={handleClose}>
-                        Close
-                      </Button>
+                        <Button variant="secondary" onClick={handleClose}>
+                            Close
+                        </Button> 
                     </Modal.Footer>
                 </Modal>
             </Form>

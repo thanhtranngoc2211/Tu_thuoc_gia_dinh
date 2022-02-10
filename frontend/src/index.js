@@ -14,12 +14,14 @@ import Export from '../src/components/Export';
 import Order from '../src/components/Order';
 import Message from '../src/components/Message';
 import OrderSpec from './components/OrderSpec';
+import Register from './components/Register';
 
 ReactDOM.render(
   <Router>
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/:id" element={<App />} />
+      <Route path="/register" element={<Register />} />
       <Route path="/user_info/:id" element={<UserInfo />} />
       <Route path="/user_info/update/:id" element={<UserInfoChange />} />
       <Route path="/pills_info/:id" element={<Pills />} />

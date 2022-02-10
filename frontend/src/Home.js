@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { GrNext } from 'react-icons/gr'
@@ -31,11 +31,6 @@ const User = styled.div`
     align-items: center;
 `
 
-const SelectUser = styled.select`
-    width: 30vw;
-    height: 6vh;
-`
-
 const LinkSubmit = styled(Link)`
     text-decoration: none;
 `
@@ -49,9 +44,23 @@ const SubmitForm = styled.div`
 
 export default function Home() {
     const [userId, setUserId] = useState(1);
-    const handleChange =(event) => {
-        setUserId(event)
+    const [users, setUsers] = useState([]);
+    const handleChange =(e) => {
+        setUserId(e)
     }
+
+    const fetchItems = async() => {
+        try {
+          const users = await (await fetch("http://127.0.0.1:8000/users")).json()
+          setUsers(users)
+        } catch (error) {
+          console.log(error)
+        }
+    }
+    useEffect(() => {
+      fetchItems();
+    }, []);
+
     return (
         <HomePage style={{ backgroundImage: `url(${mainLogo})`}}>
             <Login>TỦ THUỐC GIA ĐÌNH</Login>
@@ -59,8 +68,7 @@ export default function Home() {
                 <h2>Tên đăng nhập:</h2>
                 <SubmitForm>
                     <DropdownButton title="Chọn người sử dụng" style={{marginLeft:"80px"}}>
-                        <DropdownItem onClick={() => handleChange(1)}>Trần Ngọc Thành</DropdownItem>
-                        <DropdownItem onClick={() => handleChange(2)}>Trần Mai Linh</DropdownItem>
+                        {users.map((i) => (<DropdownItem onClick={() => handleChange(i.masoTV)}>{i.hoTen}</DropdownItem>))}
                     </DropdownButton>
                     <LinkSubmit to={`${userId}`}>
                         <Button variant="primary" style={{width:"5vw", height:"5.6vh", marginLeft:"30px"}}>
@@ -68,6 +76,9 @@ export default function Home() {
                         </Button>
                     </LinkSubmit>
                 </SubmitForm>
+                <LinkSubmit to="/register" usersLength={users.length}>
+                    <Button style={{marginTop:'20px'}}>Thêm thành viên</Button>
+                </LinkSubmit>
             </User>
         </HomePage>
     )

@@ -10,6 +10,15 @@ import models, schemas
 #
 #    return db.query(models.User).filter(models.User.email == email).first()
 #
+
+def create_user(db: Session, user: schemas.User):
+
+    db_user = models.User(**user.dict())
+    db.add(db_user)
+    db.commit()
+    db.refresh(db_user)
+    return db_user
+
 def get_users(db: Session):
 
     return db.query(models.User).all()
@@ -24,8 +33,17 @@ def update_user(db: Session, user: schemas.User):
     db.refresh(db_post)
     return db_post
 
+def delete_user(db: Session, id: id):
+    db_post = db.query(models.User).filter(models.User.masoTV == id).first()
+    db.delete(db_post)
+    db.commit()
+    return db_post
+
 def get_imports (db: Session):
     return db.query(models.Import).all()
+
+def get_exports (db: Session):
+    return db.query(models.Export).all()
 
 def get_items(db: Session):
 
@@ -59,23 +77,15 @@ def create_user_import(db: Session, order: schemas.Import):
     db.refresh(db_item)
     return db_item
 
-def create_user_export(db: Session, order: schemas.Import):
+def create_user_export(db: Session, order: schemas.Export):
     db_item = models.Export(**order.dict())
     db.add(db_item)
     db.commit()
     db.refresh(db_item)
     return db_item
 
-def add_item_quantity(db:Session, masoTB, quantity):
-    db_post = db.query(models.Item).filter(models.Item.masoTB == masoTB).first()
-    db_post.soLuong = db_post.soLuong + quantity
-    db.commit()
-    db.refresh(db_post)
-    return db_post
-
 def delete_item_quantity(db:Session, masoTB, quantity):
     db_post = db.query(models.Item).filter(models.Item.masoTB == masoTB).first()
     db_post.soLuong = db_post.soLuong - quantity
     db.commit()
-    db.refresh(db_post)
     return db_post

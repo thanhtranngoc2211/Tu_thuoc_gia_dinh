@@ -34,30 +34,26 @@ def get_db():
     finally:
         db.close()
 
-#@app.post("/users/", response_model=schemas.User)
-#def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
-#    db_user = crud.get_user_by_email(db=db, email=user.email)
-#    if db_user:
-#        raise HTTPException(status_code=400, detail="Email already registered")
-#    return crud.create_user(db=db, user=user)
-
 @app.get("/users/", response_model=List[schemas.User])
 def read_users(db: Session = Depends(get_db)):
     users = crud.get_users(db)
     return users
+
+@app.post("/users/create/", response_model=schemas.User)
+def create_user(user: schemas.User, db: Session = Depends(get_db)) :
+    user = crud.create_user(db, user=user)
+    return user
+
+@app.delete("/users/delete", response_model=schemas.User)
+def delete_user(user: schemas.UserBase, db: Session = Depends(get_db)) :
+    user = crud.delete_user(db, id=user.masoTV)
+    return user
 
 @app.post("/users/update/", response_model=schemas.User)
 def update_user(user: schemas.User, db: Session = Depends(get_db)) :
     user = crud.update_user(db, user=user)
     return user
 
-#@app.get("/users/{user_id}", response_model=schemas.User)
-#def read_user(user_id: int, db: Session = Depends(get_db)):
-#    db_user = crud.get_user(db, user_id=user_id)
-#    if db_user is None:
-#        raise HTTPException(status_code=404, detail="User not found")
-#    return db_user
-#
 @app.post("/create_items/", response_model=schemas.ItemBase)
 def create_item_for_user(
     item: schemas.ItemCreate, db: Session = Depends(get_db)
@@ -68,10 +64,16 @@ def create_item_for_user(
 def read_items(db: Session = Depends(get_db)):
     items = crud.get_items(db)
     return items
+
 @app.get("/imports/", response_model=List[schemas.Import])
 def read_imports(db: Session = Depends(get_db)):
     imports = crud.get_imports(db)
     return imports
+
+@app.get("/exports/", response_model=List[schemas.Export])
+def read_exports(db: Session = Depends(get_db)):
+    exports = crud.get_exports(db)
+    return exports
 
 @app.post("/create_order/", response_model=schemas.OrderBase)
 def create_order_for_user(item: schemas.OrderBase, infor: schemas.OrderCreate, db: Session = Depends(get_db)):
@@ -84,7 +86,6 @@ def create_import_for_user(item: schemas.Import, db: Session = Depends(get_db)):
     items = crud.create_user_import(db=db, order=item)
     quantity = item.soluongNhap
     masoTB = item.masoTB
-    crud.add_item_quantity(db=db, masoTB=masoTB, quantity=quantity)
     return items
 
 @app.post("/create_export/", response_model=schemas.Export)
