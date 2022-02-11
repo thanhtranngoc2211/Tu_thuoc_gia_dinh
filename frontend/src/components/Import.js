@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link, useParams } from 'react-router-dom';
 import { Button, Form, Modal, DropdownButton } from 'react-bootstrap';
@@ -21,28 +21,59 @@ export default function Import() {
     var { id } = useParams();
     id = Number(id);
 
-    const [pill, setPill] = useState({name: '', quantity: 0, expiryDate: '', importDate: ''})
+    const [pill, setPill] = useState({masoTB: -1, name: '', quantity: 0, expiryDate: null, importDate: ''})
     const [show, setShow] = useState(false);
+    const [resp, setResp] = useState({items: [], imports: []});
+
+    const fetchItems = async() => {
+    try {
+      const items = await (await fetch("http://127.0.0.1:8000/items")).json()
+      const imports = await (await fetch("http://127.0.0.1:8000/imports")).json()
+      setResp({items: items, imports: imports})
+    } catch (error) {
+      console.log(error)
+    }
+    }
+    useEffect(() => {
+      fetchItems();
+    });
 
     const handleChangeQuantity = (event) => {
-        setPill({name: pill.name, quantity: event.target.value, expiryDate: pill.expiryDate, importDate: pill.importDate})
+        setPill({masoTB: pill.masoTB, name: pill.name, quantity: event.target.value, expiryDate: pill.expiryDate, importDate: pill.importDate})
     }
     const handleChangeExp = (event) => {
-        setPill({name: pill.name, quantity: pill.quantity, expiryDate: event.target.value, importDate: pill.importDate})
+        setPill({masoTB: pill.masoTB, name: pill.name, quantity: pill.quantity, expiryDate: event.target.value, importDate: pill.importDate})
     }
-    const handleChangeImport = (event) => {
-        setPill({name: pill.name, quantity: pill.quantity, expiryDate: pill.expiryDate, importDate: event.target.value})
+    const handleChangeNote = (event) => {
+        setPill({masoTB: pill.masoTB, name: pill.name, quantity: pill.quantity, expiryDate: pill.expiryDate, importDate: pill.importDate})
     }
 
-    const handleClick = () => {
-        console.log(pill)
-        setShow(true)
+    const handleClick = async() => {
+        var dateImport = new Date();
+    
+        const import_req = {
+            "maPhieuNhap": resp.imports.length,
+            "masoTB": pill.masoTB,
+            "soluongNhap": pill.quantity,
+            "hanSD": pill.expiryDate,
+            "ghiChu": pill.note,
+            "ngayNhap": dateImport,
+          }
+      
+        await fetch("http://127.0.0.1:8000/create_import/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(import_req)
+        })
+        setShow(true);
     }
 
     const handleClose = () => setShow(false);
 
-    const handleChangePill = () => {
-
+    const handleChangePill = (id) => {
+        setPill({masoTB: id, name: pill.name, quantity: pill.quantity, expiryDate: pill.expiryDate, importDate: pill.importDate})
     }
 
     return (
@@ -55,7 +86,7 @@ export default function Import() {
             </Head>
             <Form style={{display: 'flex', flexDirection: 'column', marginTop:'70px'}}>
                 <DropdownButton title="Tên thiết bị">
-                    <DropdownItem onClick={() => handleChangePill}>Panadol</DropdownItem>
+                    {resp.items.map((i) => (<DropdownItem onClick={() => handleChangePill(i.masoTB)}>{i.tenTB}</DropdownItem>))}
                 </DropdownButton>
                 <Form.Group controlId="formQuantity">
                     <Form.Label>Số lượng</Form.Label>
@@ -65,11 +96,7 @@ export default function Import() {
                     <Form.Label>Hạn sử dụng</Form.Label>
                     <Form.Control type="date" value={pill.expiryDate}  onChange={handleChangeExp}/>
                 </Form.Group>
-                <Form.Group controlId="formImport">
-                    <Form.Label>Ngày nhập</Form.Label>
-                    <Form.Control type="date" value={pill.importDate} onChange={handleChangeImport} />
-                </Form.Group>
-                <Button onClick={handleClick} variant="outline-primary" style={{marginTop:'30px', width: '100%'}}>Chỉnh sửa</Button>
+                <Button onClick={handleClick} variant="outline-primary" style={{marginTop:'30px', width: '100%'}}>Thêm</Button>
                 <Modal show={show} onHide={handleClose}>
                     <Modal.Header closeButton>
                       <Modal.Title>Message</Modal.Title>

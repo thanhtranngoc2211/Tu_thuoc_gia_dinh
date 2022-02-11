@@ -86,6 +86,7 @@ def create_import_for_user(item: schemas.Import, db: Session = Depends(get_db)):
     items = crud.create_user_import(db=db, order=item)
     quantity = item.soluongNhap
     masoTB = item.masoTB
+    crud.add_item_quantity(db=db, masoTB=masoTB, quantity=quantity)
     return items
 
 @app.post("/create_export/", response_model=schemas.Export)

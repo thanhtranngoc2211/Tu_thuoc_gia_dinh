@@ -52,7 +52,7 @@ class Import(BaseModel):
     maPhieuNhap: int
     masoTB: int
     soluongNhap: int
-    hanSD: date
+    hanSD: Optional[date] = None
     ghiChu: Optional[str] = None
     ngayNhap: datetime
 

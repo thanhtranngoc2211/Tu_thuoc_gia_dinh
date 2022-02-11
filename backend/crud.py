@@ -84,6 +84,12 @@ def create_user_export(db: Session, order: schemas.Export):
     db.refresh(db_item)
     return db_item
 
+def add_item_quantity(db:Session, masoTB, quantity):
+    db_post = db.query(models.Item).filter(models.Item.masoTB == masoTB).first()
+    db_post.soLuong = db_post.soLuong + quantity
+    db.commit()
+    return db_post
+
 def delete_item_quantity(db:Session, masoTB, quantity):
     db_post = db.query(models.Item).filter(models.Item.masoTB == masoTB).first()
     db_post.soLuong = db_post.soLuong - quantity

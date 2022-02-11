@@ -94,7 +94,6 @@ function App() {
   }
 
   const handleRemove = async(id) => {
-    console.log(resp.users[user_id].masoTV)
     const export_req = {
       "maPhieuXuat": resp.exports.length,
       "masoTV": resp.users[user_id].masoTV,
