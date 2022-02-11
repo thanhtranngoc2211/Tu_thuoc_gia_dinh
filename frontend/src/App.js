@@ -94,6 +94,8 @@ function App() {
   }
 
   const handleRemove = async(id) => {
+    console.log(resp.exports.length)
+
     const export_req = {
       "maPhieuXuat": resp.exports.length,
       "masoTV": resp.users[user_id].masoTV,
@@ -138,7 +140,7 @@ function App() {
                 <th>Hạn sử dụng</th>
                 <th>Ghi chú</th>  
               </tr>
-              {resp.items.map((i) => (<tr><th>{i.tenTB}</th><th>{i.soLuong} {i.donViTinh}</th><th>{i.hanSD}</th><th>{i.ghiChu}</th><th></th><th><Button style={{width:"30px"}} size="sm" onClick={() => handleRemove(i.masoTB)}>-</Button></th></tr>))}
+              {resp.items.map((i) => (<tr><th><p title={i.loaiTB}>{i.tenTB}</p></th><th>{i.soLuong} {i.donViTinh}</th><th>{i.hanSD}</th><th>{i.ghiChu}</th><th></th><th><Button style={{width:"30px"}} size="sm" onClick={() => handleRemove(i.masoTB)}>-</Button></th></tr>))}
             </table>
           </div>
         </MainInfo>

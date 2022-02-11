@@ -36,16 +36,13 @@ export default function Import() {
     }
     useEffect(() => {
       fetchItems();
-    });
+    }, []);
 
     const handleChangeQuantity = (event) => {
         setPill({masoTB: pill.masoTB, name: pill.name, quantity: event.target.value, expiryDate: pill.expiryDate, importDate: pill.importDate})
     }
     const handleChangeExp = (event) => {
         setPill({masoTB: pill.masoTB, name: pill.name, quantity: pill.quantity, expiryDate: event.target.value, importDate: pill.importDate})
-    }
-    const handleChangeNote = (event) => {
-        setPill({masoTB: pill.masoTB, name: pill.name, quantity: pill.quantity, expiryDate: pill.expiryDate, importDate: pill.importDate})
     }
 
     const handleClick = async() => {

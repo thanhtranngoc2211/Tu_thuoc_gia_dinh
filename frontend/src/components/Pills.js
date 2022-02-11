@@ -71,6 +71,7 @@ export default function Pills() {
             body: JSON.stringify(pillCreate)
         })
         setShow(true);
+        setPill({type: '', name: '', unit: '', note: ''})
     }
 
     const handleClose = () => setShow(false);
