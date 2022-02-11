@@ -76,7 +76,10 @@ export default function Export() {
                 <Link to={`/${id}`} style={{position:'absolute',left:'0'}}>
                     <Button>Back</Button>
                 </Link>
-                <h1 style={{marginTop:'40px'}}>Nhập thuốc</h1>
+                <h1 style={{marginTop:'40px'}}>Xuất thuốc</h1>
+                <Link to={`/exports_spec/${id}}`} style={{position:'absolute', right: '0'}}>
+                    <Button>Lịch sử xuất</Button>
+                </Link>
             </Head>
             <Form style={{display: 'flex', flexDirection: 'column', marginTop:'70px'}}>
                 <DropdownButton title="Tên thiết bị">

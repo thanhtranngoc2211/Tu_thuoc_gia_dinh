@@ -16,11 +16,12 @@ const ItemInfo = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 80vw;
+  right: 0;
 `
 
 const Welcome = styled.div`
-  display: flex;
-  margin-left: 35vw;
+  display: flex; 
 `
 
 const UserToggle = styled.div`
@@ -129,7 +130,7 @@ function App() {
       <ItemInfo>
         <Welcome>
           <h1>Tủ thuốc</h1>
-          <h5 style={{marginLeft:"15vw"}}>Xin chào {userName} </h5>
+          <h5 style={{position:'absolute', right: '0', }}>Xin chào {userName} </h5>
         </Welcome>
         <MainInfo>
           <div class="table-wrapper-scroll-y my-custom-scrollbar">

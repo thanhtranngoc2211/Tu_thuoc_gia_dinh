@@ -15,6 +15,8 @@ import Order from '../src/components/Order';
 import Message from '../src/components/Message';
 import OrderSpec from './components/OrderSpec';
 import Register from './components/Register';
+import ImportSpec from './components/ImportSpec';
+import ExportSpec from './components/ExportSpec';
 
 ReactDOM.render(
   <Router>
@@ -26,7 +28,9 @@ ReactDOM.render(
       <Route path="/user_info/update/:id" element={<UserInfoChange />} />
       <Route path="/pills_info/:id" element={<Pills />} />
       <Route path="/import/:id" element={<Import />} />
+      <Route path="/imports_spec/:id" element={<ImportSpec />} />
       <Route path="/export/:id" element={<Export />} />
+      <Route path="/exports_spec/:id" element={<ExportSpec />} />
       <Route path="/order/:id" element={<Order />} />
       <Route path="/message/:id" element={<Message />} />
       <Route path="/order/spec/:id" element={<OrderSpec />} />
