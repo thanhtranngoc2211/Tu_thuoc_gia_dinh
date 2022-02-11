@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Button, Table } from 'react-bootstrap';
 import { Link, useParams } from 'react-router-dom';
@@ -17,8 +17,24 @@ const Head = styled.div`
 
 export default function ImportSpec() {
     var { id } = useParams();
-    console.log(id);
-    
+    id = Number(id);
+
+    const [resp, setResp] = useState({items: [], imports: []});
+    const import_load = new Array(0);
+
+    const fetchItems = async() => {
+      try {
+        const items = await (await fetch("http://127.0.0.1:8000/items")).json()
+        const imports = await (await fetch("http://127.0.0.1:8000/imports")).json()
+        setResp({items: items, imports: imports})
+      } catch (error) {
+        console.log(error)
+      }
+      }
+      useEffect(() => {
+        fetchItems();
+      }, []);
+
     return (
         <Page>
             <Head>
@@ -32,48 +48,22 @@ export default function ImportSpec() {
                 <thead>
                   <tr>
                     <th scope="col">#</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
-                    <th scope="col">Handle</th>
+                    <th scope="col">Tên thiết bị</th>
+                    <th scope="col">Số lượng nhập</th>
+                    <th scope="col">Hạn sử dụng</th>
+                    <th scope="col">Ngày nhập</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    <td>@twitter</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">4</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">5</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">6</th>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    <td>@twitter</td>
-                  </tr>
+                  {resp.imports.map((i) => (
+                    <tr>
+                    <th scope="row">{i.maPhieuNhap}</th>
+                    <td>{i.masoTB}</td>
+                    <td>{i.soluongNhap}</td>
+                    <td>{i.hanSD}</td>
+                    <td>{i.ngayNhap}</td>
+                    </tr>)
+                  )}    
                 </tbody>
               </table>
 

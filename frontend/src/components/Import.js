@@ -80,7 +80,7 @@ export default function Import() {
                     <Button>Back</Button>
                 </Link>
                 <h1 style={{marginTop:'40px'}}>Nhập thuốc</h1>
-                <Link to={`/imports_spec/${id}}`} style={{position:'absolute', right: '0'}}>
+                <Link to={`/imports_spec/${id}`} style={{position:'absolute', right: '0'}}>
                     <Button>Lịch sử nhập</Button>
                 </Link>
             </Head>
