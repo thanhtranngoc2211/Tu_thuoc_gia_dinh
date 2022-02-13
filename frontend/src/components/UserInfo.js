@@ -8,8 +8,9 @@ const Page = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #EBE645;
+    background-color: #FFEFEF;
     height: 100vh;
+    color: #7386D5;
 `
 
 const Head = styled.div`
@@ -46,7 +47,7 @@ export default function UserInfo() {
         <Page>
             <Head>
                 <Link to={`/${id}`} style={{position:'absolute',left:'0'}}>
-                    <Button>Back</Button>
+                    <Button size="lg" variant="danger">Back</Button>
                 </Link>
                 <h1 style={{marginTop:'40px'}}>Thông tin người dùng</h1>
             </Head>

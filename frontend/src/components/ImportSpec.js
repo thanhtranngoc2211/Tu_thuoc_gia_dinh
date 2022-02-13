@@ -7,8 +7,10 @@ const Page = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #EBE645;
+    background-color: #FFEFEF;
     height: 100vh;   
+    color: #FF2C2C;
+    font-size: 20px;
 `
 
 const Head = styled.div`
@@ -20,7 +22,6 @@ export default function ImportSpec() {
     id = Number(id);
 
     const [resp, setResp] = useState({items: [], imports: []});
-    const import_load = new Array(0);
 
     const fetchItems = async() => {
       try {
@@ -35,13 +36,18 @@ export default function ImportSpec() {
         fetchItems();
       }, []);
 
+      const items_load = new Array(0);
+      for (var ite = 0; ite < resp.items.length; ite++) {
+        items_load.push(resp.items[ite].tenTB)
+      }
+
     return (
         <Page>
             <Head>
                 <Link to={`/import/${id}`} style={{position:'absolute',left:'0'}}>
-                    <Button>Back</Button>
+                    <Button size="lg" variant='danger'>Back</Button>
                 </Link>
-                <h1 style={{marginTop:'40px'}}>Lịch sử nhập</h1>
+                <h1 style={{marginTop:'40px', fontSize:'50px'}}>Lịch sử nhập</h1>
             </Head>
             <div class="table-wrapper-scroll-y my-custom-scrollbar">
               <table className="table table-bordered table-striped mb-0">
@@ -58,7 +64,7 @@ export default function ImportSpec() {
                   {resp.imports.map((i) => (
                     <tr>
                     <th scope="row">{i.maPhieuNhap}</th>
-                    <td>{i.masoTB}</td>
+                    <td>{items_load[i.masoTB]}</td>
                     <td>{i.soluongNhap}</td>
                     <td>{i.hanSD}</td>
                     <td>{i.ngayNhap}</td>

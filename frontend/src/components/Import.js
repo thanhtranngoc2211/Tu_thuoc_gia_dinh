@@ -8,8 +8,10 @@ const Page = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #EBE645;
-    height: 100vh;   
+    background-color: #FFEFEF;
+    height: 100vh;
+    color: #7386D5;
+    font-size: 20px;   
 `
 
 const Head = styled.div`
@@ -77,18 +79,18 @@ export default function Import() {
         <Page>
             <Head>
                 <Link to={`/${id}`} style={{position:'absolute',left:'0'}}>
-                    <Button>Back</Button>
+                    <Button size="lg" variant="danger">Back</Button>
                 </Link>
-                <h1 style={{marginTop:'40px'}}>Nhập thuốc</h1>
+                <h1 style={{marginTop:'40px', fontSize:'60px'}}>Nhập thuốc</h1>
                 <Link to={`/imports_spec/${id}`} style={{position:'absolute', right: '0'}}>
-                    <Button>Lịch sử nhập</Button>
+                    <Button size="lg" variant="danger">Lịch sử nhập</Button>
                 </Link>
             </Head>
             <Form style={{display: 'flex', flexDirection: 'column', marginTop:'70px'}}>
                 <DropdownButton title="Tên thiết bị">
                     {resp.items.map((i) => (<DropdownItem onClick={() => handleChangePill(i.masoTB)}>{i.tenTB}</DropdownItem>))}
                 </DropdownButton>
-                <Form.Group controlId="formQuantity">
+                <Form.Group controlId="formQuantity" style={{marginTop:'20px'}}>
                     <Form.Label>Số lượng</Form.Label>
                     <Form.Control type="text" value={pill.quantity} onChange={handleChangeQuantity} />
                 </Form.Group>

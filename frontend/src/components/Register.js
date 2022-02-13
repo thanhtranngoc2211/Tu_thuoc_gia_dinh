@@ -37,7 +37,7 @@ export default function Register() {
 
     const handleClick = () => {
         const userUpdate = {
-            "masoTV": usersLength + 1,
+            "masoTV": usersLength,
             "hoTen": users.hoTen,
             "namSinh": users.namSinh,
             "tienSuBL": users.tienSuBL

@@ -7,8 +7,10 @@ const Page = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #EBE645;
-    height: 100vh;   
+    background-color: #FFEFEF;
+    height: 100vh;
+    color: #7386D5;
+    font-size: 20px;
 `
 
 const Head = styled.div`
@@ -80,9 +82,9 @@ export default function Pills() {
         <Page>
             <Head>
                 <Link to={`/${id}`} style={{position:'absolute',left:'0'}}>
-                    <Button>Back</Button>
+                    <Button size="lg" variant="danger">Back</Button>
                 </Link>
-                <h1 style={{marginTop:'40px'}}>Nhập thông tin thiết bị y tế</h1>
+                <h1 style={{marginTop:'40px', fontSize:'60px'}}>Nhập thông tin thiết bị y tế</h1>
             </Head>
             <Form style={{display: 'flex', flexDirection: 'column', marginTop:'70px'}}>
                 <Form.Group controlId="formType">

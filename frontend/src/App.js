@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import './App.css';
 import { useParams, Link } from 'react-router-dom';
 import styled from 'styled-components';
-import mainLogo from './2.png';
 import { FiSettings } from 'react-icons/fi';
 import { Button } from 'react-bootstrap'
+import image from './assets/1.jpg';
 
 const Page = styled.div`
   display: flex;
@@ -25,7 +25,7 @@ const Welcome = styled.div`
 `
 
 const UserToggle = styled.div`
-  background-color: #577BC1;
+  background-color: #A0B6F5;
   height: 100vh;
   width: 20vw;
   display: flex;
@@ -34,21 +34,28 @@ const UserToggle = styled.div`
 `
 
 const MainInfo = styled.div`
-  margin-top: 8vh;
-  background-color: #577BC1;
+  margin-top: 4vh;
+  background-color: #A0B6F5;
   opacity: 80%;
   border-radius: 3%;
 `
 
 const Toggle = styled(Link)`
   color: black;
-  margin-bottom: 3vh;
+  margin-bottom: 5vh;
   margin-top: 2vw;
+  text-decoration: none;
+  font-size: 25px;
+  &:hover {
+    color: #FF2C2C;
+    transition: 0.6s;
+  }
 `
 
 function App() {
   var { id } = useParams();
   id = Number(id);
+
   const [resp, setResp] = useState({items: [], imports: [], users: []});
   const fetchItems = async() => {
     try {
@@ -61,6 +68,7 @@ function App() {
       console.log(error)
     }
   }
+
   useEffect(() => {
     fetchItems();
   });
@@ -116,7 +124,7 @@ function App() {
   }
 
   return (
-    <Page style={{ backgroundImage: `url(${mainLogo})` }}>
+    <Page style={{backgroundImage: `url(${image})`}}>
       <UserToggle>
         <FiSettings size={30} style={{marginTop:"2vh"}}/>
         <Toggle to={`/user_info/${id}`}>Thông tin người dùng</Toggle>
@@ -124,24 +132,23 @@ function App() {
         <Toggle to={`/import/${id}`}>Nhập thuốc</Toggle>
         <Toggle to={`/export/${id}`}>Xuất thuốc</Toggle>
         <Toggle to={`/order/${id}`}>Nhập đơn thuốc</Toggle>
-        <Toggle to={`/message/${id}`}>Thông báo</Toggle>
         <Toggle to={'/'}>Đổi người dùng</Toggle>
       </UserToggle>
       <ItemInfo>
         <Welcome>
-          <h1>Tủ thuốc</h1>
-          <h5 style={{position:'absolute', right: '0', }}>Xin chào {userName} </h5>
+          <h1 style={{fontSize: '50px'}}>Tủ thuốc</h1>
+          <h5 style={{position:'absolute', right: '20px', }}>Xin chào {userName} </h5>
         </Welcome>
         <MainInfo>
           <div class="table-wrapper-scroll-y my-custom-scrollbar">
-            <table style={{width: '50vw', opacity: "100%"}} className="table-bordered mb-0">
-              <tr>
-                <th>Danh sách thuốc</th>
-                <th>Số lượng còn lại</th>
-                <th>Hạn sử dụng</th>
-                <th>Ghi chú</th>  
+            <table style={{width: '61vw', opacity: "100%", border: "2px solid", borderCollapse: "collapse", fontSize:'20px'}} className="mb-0">
+              <tr style={{border: "2px solid"}}>
+                <th style={{border: "2px solid"}}>Danh sách thuốc</th>
+                <th style={{border: "2px solid"}}>Số lượng còn lại</th>
+                <th style={{border: "2px solid"}}>Hạn sử dụng</th>
+                <th style={{border: "2px solid"}}>Ghi chú</th>  
               </tr>
-              {resp.items.map((i) => (<tr><th><p title={i.loaiTB}>{i.tenTB}</p></th><th>{i.soLuong} {i.donViTinh}</th><th>{i.hanSD}</th><th>{i.ghiChu}</th><th></th><th><Button style={{width:"30px"}} size="sm" onClick={() => handleRemove(i.masoTB)}>-</Button></th></tr>))}
+              {resp.items.map((i) => (<tr style={{border: "2px solid"}}><th style={{border: "2px solid"}}><p title={i.loaiTB}>{i.tenTB}</p></th><th style={{border: "2px solid"}}>{i.soLuong} {i.donViTinh}</th><th style={{border: "2px solid"}}>{i.hanSD}</th><th style={{border: "2px solid"}}>{i.ghiChu}</th><th></th><th><Button style={{width:"30px"}} size="sm" variant="danger" onClick={() => handleRemove(i.masoTB)}>-</Button></th></tr>))}
             </table>
           </div>
         </MainInfo>
