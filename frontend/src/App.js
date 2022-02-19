@@ -5,12 +5,7 @@ import styled from 'styled-components';
 import { FiSettings } from 'react-icons/fi';
 import { Button } from 'react-bootstrap'
 import image from './assets/1.jpg';
-
-const Page = styled.div`
-  display: flex;
-  background-color: #EBE645;
-  background-size: cover;
-`
+import { motion } from 'framer-motion';
 
 const ItemInfo = styled.div`
   display: flex;
@@ -124,7 +119,12 @@ function App() {
   }
 
   return (
-    <Page style={{backgroundImage: `url(${image})`}}>
+    <motion.div 
+      className="appPage" 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}  
+    >
       <UserToggle>
         <FiSettings size={30} style={{marginTop:"2vh"}}/>
         <Toggle to={`/user_info/${id}`}>Thông tin người dùng</Toggle>
@@ -140,7 +140,7 @@ function App() {
           <h5 style={{position:'absolute', right: '20px', }}>Xin chào {userName} </h5>
         </Welcome>
         <MainInfo>
-          <div class="table-wrapper-scroll-y my-custom-scrollbar">
+          <div class="table-wrapper-scroll-y my-custom-scrollbar" style={{height: '80vh'}}>
             <table style={{width: '61vw', opacity: "100%", border: "2px solid", borderCollapse: "collapse", fontSize:'20px'}} className="mb-0">
               <tr style={{border: "2px solid"}}>
                 <th style={{border: "2px solid"}}>Danh sách thuốc</th>
@@ -153,7 +153,7 @@ function App() {
           </div>
         </MainInfo>
       </ItemInfo>
-    </Page>
+    </motion.div>
   );
 }
 

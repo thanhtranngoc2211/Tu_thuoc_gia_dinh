@@ -3,15 +3,7 @@ import styled from 'styled-components';
 import { Form, Button, Modal } from 'react-bootstrap';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
- 
-const Page = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #FFEFEF;
-    height: 100vh;
-    color: #7386D5;
-`
+import { motion } from 'framer-motion';
 
 const Head = styled.div`
     display: flex;
@@ -83,7 +75,12 @@ export default function UserInfoChange() {
     }
 
     return (
-        <Page>
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}  
+            className="UserInfoPage"
+        >
             <Head>
                 <Link to={`/${id}`} style={{position:'absolute',left:'0'}}>
                     <Button size="lg" variant="danger">Back</Button>
@@ -117,6 +114,6 @@ export default function UserInfoChange() {
                     </Modal.Footer>
                 </Modal>
             </Form>
-        </Page>
+        </motion.div>
     );
 }

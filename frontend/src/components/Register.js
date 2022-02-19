@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Form, Modal } from 'react-bootstrap';
+import { motion } from 'framer-motion'
 
 const Page = styled.div`
     display: flex;
@@ -74,7 +75,12 @@ export default function Register() {
     }
 
     return (
-        <Page>
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}  
+            className="UserInfoPage"
+        >
             <Head>
                 <Link to={"/"} style={{position:'absolute',left:'0'}}>
                     <Button>Back</Button>
@@ -107,6 +113,6 @@ export default function Register() {
                     </Modal.Footer>
                 </Modal>
             </Form>
-        </Page>
+        </motion.div>
     );
 }

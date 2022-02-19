@@ -2,16 +2,8 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Form, Button } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
-import { Link }  from 'react-router-dom'
-
-const Page = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #FFEFEF;
-    height: 100vh;
-    color: #7386D5;
-`
+import { Link }  from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 const Head = styled.div`
     display: flex;
@@ -44,7 +36,12 @@ export default function UserInfo() {
     }
 
     return (
-        <Page>
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}  
+            className="UserInfoPage"
+        >
             <Head>
                 <Link to={`/${id}`} style={{position:'absolute',left:'0'}}>
                     <Button size="lg" variant="danger">Back</Button>
@@ -68,6 +65,6 @@ export default function UserInfo() {
                     <Button variant="outline-primary" style={{marginTop:'30px', width: '100%'}}>Chỉnh sửa</Button>
                 </Link>
             </Form>
-        </Page>
+        </motion.div>
     );
 }

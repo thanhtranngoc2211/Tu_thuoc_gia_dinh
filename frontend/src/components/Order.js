@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { Link, useParams } from 'react-router-dom';
- 
+import { motion } from 'framer-motion'
+
 const Page = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #EBE645;
+    background-color: #FFEFEF;
     height: 100vh;   
+    font-size: 20px;
 `
 
 const Head = styled.div`
@@ -24,9 +26,26 @@ export default function Order() {
     var { id } = useParams();
     id = Number(id);
 
-    const [pill, setPill] = useState({name: '', quantity: 0, exportDate: null})
+    const [resp, setResp] = useState({items: [], orders: [], spec: []})
+    const [pill, setPill] = useState({name: '', quantity: 0, pathology: null})
     const [show, setShow] = useState(false);
     const [add, setAdd] = useState(true);
+    const [choose, setChoose] = useState(0);
+
+    const fetchItems = async() => {
+        try {
+          const orders = await (await fetch("http://127.0.0.1:8000/orders")).json()
+          const orders_spec = await (await fetch("http://127.0.0.1:8000/orders_spec")).json()
+          const items = await (await fetch("http://127.0.0.1:8000/items")).json()
+          setResp({items: items, orders: orders, spec: orders_spec})
+        } catch (error) {
+          console.log(error)
+        }
+    }
+
+    useEffect(() => {
+      fetchItems();
+    }, []);
 
     const handleChangeName = (event) => {
         setPill({name: event.target.value, quantity: pill.quantity, exportDate: pill.exportDate})
@@ -34,12 +53,38 @@ export default function Order() {
     const handleChangeQuantity = (event) => {
         setPill({name: pill.name, quantity: event.target.value, exportDate: pill.exportDate})
     }
-    const handleChangeExport= (event) => {
-        setPill({name: pill.name, quantity: pill.quantity, exportDate: event.target.value})
+    const handleChangePathology= (event) => {
+        setPill({name: pill.name, quantity: pill.quantity, pathology: event.target.value})
     }
 
-    const handleClick = () => {
-        console.log(pill)
+    const handleClick = async() => {
+        var date = new Date();
+
+        const order_req = {
+            "item": {
+                "maDonThuoc" : resp.orders.length,
+                "masoTV": id,
+                "ngayTao": date,
+            },
+            "infor": {
+                "maso": resp.spec.length,
+                // Check ??
+                "maDonThuoc": choose,
+                // search masoTB NOT DONE
+                "masoTB": pill.name,
+                "lieuLuong": 0,
+                "benhAn": null,
+          }
+        }
+      
+        await fetch("http://127.0.0.1:8000/create_order/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(order_req)
+        })
+
         setShow(true)
     }
 
@@ -53,35 +98,40 @@ export default function Order() {
         setAdd(true);
     }
 
-    const handleChangeOrder = () => {
-
+    const handleChoose = (event) => {
+        setChoose(event.target.value)
     }
 
     return (
-        <Page>
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}  
+            className="UserInfoPage"
+        >
             <Head>
                 {add 
                     ? <Link to={`/${id}`} style={{position:'absolute',left:'0'}}>
-                        <Button>Back</Button>
+                        <Button size="lg" variant="danger">Back</Button>
                     </Link>
-                    : <Button onClick={handleBack} style={{position:'absolute',left:'0'}}>Back</Button>
+                    : <Button size="lg" variant="danger" onClick={handleBack} style={{position:'absolute',left:'0'}}>Back</Button>
                 }
                 
-                <h1 style={{marginTop:'40px'}}>Nhập đơn thuốc</h1>
+                <h1 style={{marginTop:'40px', fontSize:'50px', color: '#7386D5'}}>Nhập đơn thuốc</h1>
             </Head>
             {add
                     ? <ViewnoAdd>
-                        <Button onClick={handleAdd} style={{marginTop: '240px'}}>Tạo đơn thuốc mới</Button>
-                        <Link to={`/order/spec/${id}`}>
-                            <Button style={{marginTop: '240px', marginLeft: '30px'}}>Xem đơn thuốc</Button>
-                        </Link>
+                        <Button size="lg" variant="danger" onClick={handleAdd} style={{marginTop: '240px'}}>Tạo đơn thuốc mới</Button>
+                        <Button size="lg" variant="danger" style={{marginTop: '240px', marginLeft: '30px'}}>
+                            <Link style={{textDecoration:'none', color:'white'}} to={`/order/spec/${id}`}>Xem đơn thuốc</Link>
+                        </Button>
                     </ViewnoAdd>
                     : null
             }
             {!add 
                 ? <Form style={{display: 'flex', flexDirection: 'column', marginTop:'70px'}}>
-                    <select title="Mã đơn thuốc">
-                        <option value="1" selected="selected">Đơn mới</option>
+                    <select title="Mã đơn thuốc" onChange={handleChoose}>
+                        <option value="0" selected="selected">Đơn mới</option>
                         <option value="1">Đơn thuốc 1</option>                       
                     </select> 
                     <Form.Group controlId="formName">
@@ -93,8 +143,8 @@ export default function Order() {
                         <Form.Control type="text" value={pill.quantity} onChange={handleChangeQuantity} />
                     </Form.Group>
                     <Form.Group controlId="formExp">
-                        <Form.Label>Hạn sử dụng</Form.Label>
-                        <Form.Control type="date" value={pill.expiryDate}  onChange={handleChangeExport}/>
+                        <Form.Label>Bệnh án</Form.Label>
+                        <Form.Control type="text" value={pill.pathology}  onChange={handleChangePathology}/>
                     </Form.Group>
                     <Button onClick={handleClick} variant="outline-primary" style={{marginTop:'30px', width: '100%'}}>Chỉnh sửa</Button>
                     <Modal show={show} onHide={handleClose}>
@@ -110,6 +160,6 @@ export default function Order() {
                     </Modal>
                 </Form>
             : null}
-        </Page>
+        </motion.div>
     );
 }

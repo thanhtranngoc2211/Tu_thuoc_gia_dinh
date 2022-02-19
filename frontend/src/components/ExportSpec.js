@@ -1,17 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Button, Table } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import { Link, useParams } from 'react-router-dom';
- 
-const Page = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #FFEFEF;
-  height: 100vh;   
-  color: #FF2C2C;
-  font-size: 20px;  
-`
+import { motion } from 'framer-motion'
 
 const Head = styled.div`
     display: flex;
@@ -50,15 +41,20 @@ export default function ExportSpec() {
       console.log(users_load)
 
     return (
-      <Page>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}  
+        className="UserInfoPage"
+      >
         <Head>
             <Link to={`/export/${id}`} style={{position:'absolute',left:'0'}}>
                 <Button size="lg" variant='danger'>Back</Button>
             </Link>
             <h1 style={{marginTop:'40px', fontSize:'50px'}}>Lịch sử xuất</h1>
         </Head>
-        <div class="table-wrapper-scroll-y my-custom-scrollbar">
-          <table className="table table-bordered table-striped mb-0">
+        <div class="table-wrapper-scroll-y my-custom-scrollbar" style={{height: '80vh'}}>
+          <table className="table table-bordered table-striped">
             <thead>
               <tr>
                 <th scope="col">#</th>
@@ -82,6 +78,6 @@ export default function ExportSpec() {
           </table>
 
         </div>
-  </Page>
+  </motion.div>
     );
 }

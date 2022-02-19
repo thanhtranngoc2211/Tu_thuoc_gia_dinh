@@ -37,6 +37,12 @@ class OrderCreate(BaseModel):
     class Config:
         orm_mode = True
 
+class OrderSearch(BaseModel):
+    id_donThuoc: int
+
+    class Config:
+        orm_mode = True
+
 class UserBase(BaseModel):
     masoTV: int
 

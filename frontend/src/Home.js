@@ -5,26 +5,10 @@ import { GrNext } from 'react-icons/gr'
 import { Button, DropdownButton } from 'react-bootstrap'
 import DropdownItem from 'react-bootstrap/esm/DropdownItem'
 import toast, { Toaster } from 'react-hot-toast'
+import { AnimatePresence, motion } from 'framer-motion'
 
 const Login = styled.h1`
     margin-bottom: 10vh;
-`
-
-const HomePage = styled.div`
-    padding-top: 10vh;
-    position: relative;
-    background-size: cover;
-    background-position: 50% 50%;
-    background-image: url("https://www.teahub.io/photos/full/20-203651_photo-wallpaper-medicine-capsules-pills-capsule.jpg");
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 100vh;
-    width: 100vw;
-    font-family: 'Arial', sans-serif;
-    font-size: 22px;
-    font-weight: lighter;
-    color: #7386D5;
 `
 
 const User = styled.div`
@@ -87,7 +71,12 @@ export default function Home() {
     }, []);
 
     return (
-        <HomePage>
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}    
+            className="homePage"
+        >
             <Toaster
                 position="top-center"
                 reverseOrder={true}
@@ -106,6 +95,6 @@ export default function Home() {
                 </LinkSubmit>
             </User>
             <Footer>Nhóm 15 Kĩ thuật phần mềm ứng dụng</Footer>
-        </HomePage>
+        </motion.div>
     )
 }

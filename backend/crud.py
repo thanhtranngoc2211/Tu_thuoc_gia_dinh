@@ -1,3 +1,4 @@
+from urllib.parse import scheme_chars
 from sqlalchemy.orm import Session
 
 import models, schemas
@@ -48,6 +49,17 @@ def get_exports (db: Session):
 def get_items(db: Session):
 
     return db.query(models.Item).all()
+
+def get_orders(db: Session):
+
+    return db.query(models.donThuoc).all()
+
+def get_orders_spec(db: Session):
+
+    return db.query(models.chiTietDon).all()
+
+def get_orders_spec_id(db: Session, id: schemas.OrderSearch):
+    return db.query(models.chiTietDon).filter(models.chiTietDon.maDonThuoc == id.id_donThuoc).all()
 
 def create_user_item(db: Session, item: schemas.ItemCreate):
     db_item = models.Item(**item.dict())

@@ -75,6 +75,21 @@ def read_exports(db: Session = Depends(get_db)):
     exports = crud.get_exports(db)
     return exports
 
+@app.get("/orders/", response_model=List[schemas.OrderBase])
+def read_orders(db: Session = Depends(get_db)):
+    orders = crud.get_orders(db)
+    return orders
+
+@app.get("/orders_spec/", response_model=List[schemas.OrderCreate])
+def read_order_spec(db: Session = Depends(get_db)):
+    orders_spec = crud.get_orders_spec(db)
+    return orders_spec
+
+@app.post("/orders_spec_id/", response_model=List[schemas.OrderCreate])
+def read_order_by_id(id: schemas.OrderSearch, db: Session = Depends(get_db)):
+    orders_spec_id = crud.get_orders_spec_id(db, id=id)
+    return orders_spec_id
+
 @app.post("/create_order/", response_model=schemas.OrderBase)
 def create_order_for_user(item: schemas.OrderBase, infor: schemas.OrderCreate, db: Session = Depends(get_db)):
     items = crud.create_user_order(db=db, order=item)
